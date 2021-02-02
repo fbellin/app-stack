@@ -10,7 +10,15 @@ variable "cluster_name" {
   description = "Name of the k8s cluster, for training only"
 }
 
-resource "aws_key_pair" "default" {
-  key_name   = "fbellin"
-  public_key = file("~/.ssh/id_rsa.pub")
+variable "cluster_autoscaler_irsa" {
+  description = "Configuration for the cluster-autoscaler-irsa terraform script"
+  type = object({
+    namespace = string
+    sa_name   = string
+  })
+
+  default = {
+    namespace = "kube-system"
+    sa_name   = "cluster-autoscaler-aws-cluster-autoscaler-chart"
+  }
 }
