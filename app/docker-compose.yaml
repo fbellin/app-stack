@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+
+  deno:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports: 
+      - "80:8000"
+    entrypoint: ['denon', 'run', '--allow-net', 'index.js']
+    
