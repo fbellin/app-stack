@@ -4,4 +4,5 @@ RUN deno install -qAf --unstable https://raw.githubusercontent.com/denosaurs/den
 WORKDIR /app
 COPY index.js /app/index.js
 EXPOSE 8000/tcp
-ENTRYPOINT ["deno", "run", "--allow-net", "index.js"]
+ENV PORT=8080
+ENTRYPOINT ["deno", "run", "--allow-net", "--allow-env", "index.js"]

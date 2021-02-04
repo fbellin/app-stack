@@ -1,9 +1,14 @@
-import { Application } from "https://deno.land/x/oak/mod.ts";
+import { Application } from "https://deno.land/x/oak/mod.ts"
 
-const app = new Application();
+const PORT = parseInt(Deno.env.get('PORT'))
+const app = new Application()
 
 app.use((ctx) => {
-  ctx.response.body = "Hello World from Deno with denon !";
-});
+  ctx.response.body = "Hello World from Deno with denon !"
+})
 
-await app.listen({ port: 8000 });
+app.addEventListener( 'listen', () => {
+  console.log('Oak server listening on port:' + PORT)
+})
+
+await app.listen({ port: PORT })
