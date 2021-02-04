@@ -25,3 +25,15 @@ module "vpc" {
     "kubernetes.io/role/internal-elb"             = "1"
   }
 }
+
+# data "aws_subnet_ids" "private" {
+#   vpc_id = module.vpc.vpc_id
+#    tags = {
+#     Tier = "Private"
+#   }
+# }
+
+# data "aws_subnet" "private" {
+#   for_each = data.aws_subnet_ids.private.ids
+#   id       = each.value
+# }
