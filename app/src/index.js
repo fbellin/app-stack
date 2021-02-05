@@ -19,13 +19,9 @@ app.use(async (ctx, next) => {
  
   await next();
 });
- 
-app.use(routes.session.routes())
-app.use(routes.session.allowedMethods())
+
 app.use(routes.user.routes())
 app.use(routes.user.allowedMethods())
-app.use(routes.message.routes())
-app.use(routes.message.allowedMethods())
 
 // Adds a listener to react on server startup
 const PORT = parseInt(Deno.env.get('PORT'))

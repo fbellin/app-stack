@@ -1,29 +1,25 @@
+'use strict'
+
+import userFactory from './users.js'
+
 // Set sample data
-let users = {
-    1: {
-      id: '1',
-      username: 'Robin Wieruch',
-    },
-    2: {
-      id: '2',
-      username: 'Dave Davids',
-    },
-  };
+let data = [
+  {
+    email: 'john@doo.com',
+    password: 'johndoo'
+  },
+  {
+    email: 'foo@bar.com',
+    password: 'foobar'
+  }
+]
 
-  let messages = {
-    1: {
-      id: '1',
-      text: 'Hello World',
-      userId: '1',
-    },
-    2: {
-      id: '2',
-      text: 'By World',
-      userId: '2',
-    },
-  };
+let users = data.map( user => {
+  return userFactory.make(user)
+})
 
-  export default {
-      users,
-      messages
+console.log(users)
+
+export default {
+    users
   }
