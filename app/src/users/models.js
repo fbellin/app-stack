@@ -18,7 +18,19 @@ let make = (spec) => {
 
 }
 
-let userFactory = {
-    make: make
+let getAll = () => {
+    return [
+        {
+            email: 'john@doo.com',
+            password: 'johndoo'
+        },
+        {
+            email: 'foo@bar.com',
+            password: 'foobar'
+        }
+    ].map( user => make(user) )
 }
-export default userFactory
+
+export default {
+    getAll: getAll
+}

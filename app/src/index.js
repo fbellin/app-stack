@@ -1,7 +1,6 @@
 import { Application } from "https://deno.land/x/oak/mod.ts"
 
-import models from './models/index.js'
-import routes from './routes/index.js'
+import users from './users/index.js'
 
 const app = new Application()
 
@@ -13,15 +12,15 @@ app.use(async (ctx, next) => {
 
 app.use(async (ctx, next) => {
   ctx.state = {
-    models: models,
-    me: models.users[1] 
+    models: undefined,
+    me: undefined
   };
  
   await next();
 });
 
-app.use(routes.user.routes())
-app.use(routes.user.allowedMethods())
+app.use(users.router.routes())
+app.use(users.router.allowedMethods())
 
 // Adds a listener to react on server startup
 const PORT = parseInt(Deno.env.get('PORT'))

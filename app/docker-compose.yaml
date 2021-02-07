@@ -2,6 +2,17 @@ version: "3.7"
 
 services:
 
+  db:
+    image: postgres
+    volumes:
+      - ./.pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=app-stack-db
+      - POSTGRES_USER=app-stack-adm
+      - POSTGRES_PASSWORD=appstackadm
+
   deno:
     build:
       context: .
