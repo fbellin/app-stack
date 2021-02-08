@@ -5,4 +5,4 @@ WORKDIR /app
 COPY src /app/src
 EXPOSE 8000/tcp
 ENV PORT=8080
-ENTRYPOINT ["deno", "run", "--allow-net", "--allow-env", "src/index.js"]
+ENTRYPOINT ["deno", "run", "--allow-net", "--allow-env", "/app/src/index.js"]
