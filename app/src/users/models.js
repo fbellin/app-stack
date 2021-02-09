@@ -1,34 +1,28 @@
 'use strict'
 
+import db from '../db/database.js'
+
 let make = (spec) => {
 
-    let email = spec.email
+    let email = spec.name
     let password = spec.password
 
-    let save = () => {
+    let toString = () => {
         console.log(`Save user: ${email} - ${password}`)
     }
 
     let that = Object.create({})
     that.email = email
     that.password = password
-    that.save = save
+    that.toString = toString
 
     return that
 
 }
 
-let getAll = () => {
-    return [
-        {
-            email: 'john@doo.com',
-            password: 'johndoo'
-        },
-        {
-            email: 'foo@bar.com',
-            password: 'foobar'
-        }
-    ].map( user => make(user) )
+let getAll = async () => {
+    let users = await db.query('select * from users;')
+    return users.map( user => make(user))
 }
 
 export default {

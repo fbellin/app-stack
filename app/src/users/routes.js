@@ -3,11 +3,11 @@ import users from './models.js'
 
 const router = new Router()
 
-router.get('/users', (ctx) => {
+router.get('/users', async (ctx) => {
     console.log('Route users')
     ctx.response.body = {
         status: 'Success',
-        data: users.getAll()
+        data: await users.getAll()
     }
 })
 

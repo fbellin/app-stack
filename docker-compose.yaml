@@ -13,9 +13,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_DB=app-stack-db
-      - POSTGRES_USER=app-stack-adm
-      - POSTGRES_PASSWORD=appstackadm
+      - POSTGRES_DB=appdb
+      - POSTGRES_USER=appdbadm
+      - POSTGRES_PASSWORD=appdbadm
 
   deno:
     build:
