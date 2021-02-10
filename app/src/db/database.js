@@ -10,16 +10,14 @@ let make = async (spec) => {
 
     let query = async (sql) => {
 
-        let result = []
-        let cursor = await client.queryArray(sql)
-        cursor.rows.map( row => {
-            let record = {}
-            cursor.rowDescription.columns.map( (attribute, i) => {
-                record[attribute.name] = row[i]
-            })
-            result.push(record)
-        })
-        return result
+        try {
+            return await client.queryObject(sql)
+        } catch (error) {
+            console.log(error)
+        }
+        
+       
+       
     }
 
     let that = Object.create({})
