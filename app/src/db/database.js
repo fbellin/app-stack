@@ -11,7 +11,23 @@ let make = async (spec) => {
     let query = async (sql) => {
 
         try {
-            return await client.queryObject(sql)
+            let result = await client.queryObject(sql)
+            switch (result.command) {
+                case 'SELECT' :
+                    result = result.rows
+                    break
+                case 'INSERT' :
+                case 'UPDATE' :
+                case 'DELETE' :
+                    result = {
+                        command: result.command,
+                        rowCount: result.rowCount
+                    }
+                    break
+                default:
+                    throw new Error ('Unknown sql command in query result')
+            }
+            return result
         } catch (error) {
             console.log(error)
         }

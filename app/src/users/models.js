@@ -22,7 +22,7 @@ let make = (spec) => {
 
 let selectAll = async () => {
     let users = await db.query('select * from users;')
-    return users.rows
+    return users
 }
 
 let selectById = async (id) => {
@@ -31,18 +31,18 @@ let selectById = async (id) => {
 }
 
 let insert = async (params) => {
-    let user = await db.query(`insert into users (id, email, password) values (${params.id}, '${params.email}', '${params.password}');`)
-    return user
+    let result = await db.query(`insert into users (id, email, password) values (${params.id}, '${params.email}', '${params.password}');`)
+    return result
 }
 
 let update = async (params) => {
-    let user = await db.query(`update users set email='${params.email}', password='${params.password}' where id=${params.id}`)
-    return user
+    let result = await db.query(`update users set email='${params.email}', password='${params.password}' where id=${params.id}`)
+    return result
 }
 
 let deleteFn = async (id) => {
-    let user = await db.query(`delete from users where id=${id}`)
-    return user
+    let result = await db.query(`delete from users where id=${id}`)
+    return result
 }
 
 export default {
