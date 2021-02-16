@@ -8,24 +8,24 @@ services:
     container_name: db
     volumes:
       - pg-data:/var/lib/postgresql/data
-
-
     ports:
       - 5432:5432
-    environment:
-      - POSTGRES_DB=appdb
-      - POSTGRES_USER=appdbadm
-      - POSTGRES_PASSWORD=appdbadm
 
   deno:
     build:
       context: ./app
-      dockerfile: Dockerfile
+    container_name: deno
     working_dir: /app
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=appdb
+      - POSTGRES_USER=appdbadm
+      - POSTGRES_PASSWORD=appdbadm
     # volumes:
     #   - ./app:/app
     ports: 
-      - "80:8080"
+      - "8080:8080"
     depends_on:
       - db
     # entrypoint: ['deno', 'run', '--allow-net', 'index.js']

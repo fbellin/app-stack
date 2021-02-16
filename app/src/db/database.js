@@ -1,8 +1,20 @@
 import { Client } from 'https://deno.land/x/postgres/mod.ts'
 
-let make = async (spec) => {
+const POSTGRES_HOST = Deno.env.get('POSTGRES_HOST')
+const POSTGRES_PORT = parseInt(Deno.env.get('POSTGRES_PORT'))
+const POSTGRES_DB = Deno.env.get('POSTGRES_DB')
+const POSTGRES_USER = Deno.env.get('POSTGRES_USER')
+const POSTGRES_PASSWORD = Deno.env.get('POSTGRES_PASSWORD')
 
-    let connection_parameters = spec
+let make = async () => {
+
+    let connection_parameters = {
+        hostname: POSTGRES_HOST,
+        port: POSTGRES_PORT,
+        database: POSTGRES_DB,
+        user: POSTGRES_USER,
+        password: POSTGRES_PASSWORD
+    }
 
     let client = new Client(connection_parameters)
     await client.connect()
@@ -31,8 +43,6 @@ let make = async (spec) => {
         } catch (error) {
             console.log(error)
         }
-        
-       
        
     }
 
@@ -42,12 +52,5 @@ let make = async (spec) => {
     return that
 
 }
-const db = await make({
-    hostname: 'localhost',
-    port: 5432,
-    database: 'appdb',
-    user:'appdbadm',
-    password: 'appdbadm'
-})
 
-export default db
+export default await make()
