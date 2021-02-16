@@ -31,7 +31,7 @@ let selectById = async (id) => {
 }
 
 let insert = async (params) => {
-    let result = await db.query(`insert into users (id, email, password) values (${params.id}, '${params.email}', '${params.password}');`)
+    let result = await db.query(`insert into users (email, password) values ('${params.email}', '${params.password}');`)
     return result
 }
 

@@ -28,4 +28,8 @@ app.addEventListener( 'listen', () => {
   console.log('Oak server listening on port:' + PORT)
 })
 
-await app.listen({ port: PORT })
+try { 
+  await app.listen({ port: PORT })
+} catch (error) {
+  console.log(error)
+}
