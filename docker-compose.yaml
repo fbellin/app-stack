@@ -11,9 +11,9 @@ services:
     ports:
       - 5432:5432
 
-  deno:
+  back:
     build:
-      context: ./app
+      context: ./back
     container_name: deno
     working_dir: /app
     environment:
@@ -29,6 +29,17 @@ services:
     depends_on:
       - db
     # entrypoint: ['deno', 'run', '--allow-net', 'index.js']
+  
+  front:
+    build:
+      context: ./front
+    container_name: svelte
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+    ports:
+      - "5000:5000"
+    
 
 volumes:
   pg-data:
