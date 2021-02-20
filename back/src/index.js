@@ -1,4 +1,5 @@
 import { Application } from "https://deno.land/x/oak/mod.ts"
+import { oakCors } from "https://deno.land/x/cors/mod.ts";
 
 import users from './users/index.js'
 
@@ -9,6 +10,12 @@ app.use(async (ctx, next) => {
   await next()
   console.log(`HTTP ${ctx.request.method} on ${ctx.request.url}`)
 })
+
+app.use(
+  oakCors({
+    origin: "http://localhost:5000"
+  }),
+);
 
 app.use(async (ctx, next) => {
   ctx.state = {

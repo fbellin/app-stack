@@ -1,30 +1,96 @@
+<!-- https://eugenkiss.github.io/7guis/tasks#crud -->
+
 <script>
-	export let name;
+	import { onMount } from 'svelte'
+
+	let users = [];
+	
+
+	let email = '';
+	let password = '';
+	let i = 0;
+
+	$: filteredPeople = email
+		? users.filter(user => {
+			const name = `${user.email}, ${user.password}`;
+			return name.toLowerCase().startsWith(prefix.toLowerCase());
+		})
+		: users;
+
+	$: selected = filteredPeople[i];
+
+	$: reset_inputs(selected);
+
+	function create() {
+		users = users.concat({ email: email, password: password });
+		i = users.length - 1;
+		email = password = '';
+	}
+
+	function update() {
+		users[i] = { email: email, password: password };
+	}
+
+	function remove() {
+		users = [...users.slice(0, i), ...users.slice(i + 1)];
+
+		email = password = '';
+		i = Math.min(i, users.length - 1);
+	}
+
+	function reset_inputs(person) {
+		email = person ? person.first : '';
+		password = person ? person.last : '';
+	}
+
+	onMount(async () => {
+		const response = await fetch('http://localhost:8080/users', {
+			headers: {
+				'Content-Type': 'text/plain'
+			}
+		})
+		let result = response.json()
+		users = result.data
+		//return response.data
+	})
+
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	* {
+		font-family: inherit;
+		font-size: inherit;
 	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+	input {
+		display: block;
+		margin: 0 0 0.5em 0;
 	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	select {
+		float: left;
+		margin: 0 1em 1em 0;
+		width: 14em;
+	}
+
+	.buttons {
+		clear: both;
 	}
 </style>
+
+<input placeholder="filter prefix" bind:value={prefix}>
+
+<select bind:value={i} size={5}>
+	{#each filteredPeople as user, i}
+		<option value={i}>{user.password}, {user.email}</option>
+	{/each}
+</select>
+
+<label><input bind:value={email} placeholder="email"></label>
+<label><input bind:value={password} placeholder="password"></label>
+
+<div class='buttons'>
+	<button on:click={create} disabled="{!email || !password}">create</button>
+	<button on:click={update} disabled="{!email || !password || !selected}">update</button>
+	<button on:click={remove} disabled="{!selected}">delete</button>
+</div>
