@@ -5,16 +5,20 @@ services:
   db:
     build:
       context: ./db 
-    container_name: db
+    container_name: app-stack-db
     volumes:
       - pg-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=appdb
+      - POSTGRES_USER=appdbadm
+      - POSTGRES_PASSWORD=appdbadm
     ports:
       - 5432:5432
 
   back:
     build:
       context: ./back
-    container_name: deno
+    container_name: app-stack-back
     working_dir: /app
     environment:
       - POSTGRES_HOST=db
@@ -22,18 +26,18 @@ services:
       - POSTGRES_DB=appdb
       - POSTGRES_USER=appdbadm
       - POSTGRES_PASSWORD=appdbadm
-    # volumes:
-    #   - ./app:/app
+    volumes:
+      - ./back/src:/app
     ports: 
       - "8080:8080"
     depends_on:
       - db
-    # entrypoint: ['deno', 'run', '--allow-net', 'index.js']
+    entrypoint: ['denon', 'run', '--allow-net', '--allow-env', 'index.js']
   
   front:
     build:
       context: ./front
-    container_name: svelte
+    container_name: app-stack-front
     volumes:
       - ./front:/app
       - /app/node_modules
