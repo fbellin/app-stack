@@ -9,6 +9,7 @@
 	let email = '';
 	let password = '';
 	let i = 0;
+	let prefix = '';
 
 	$: filteredPeople = email
 		? users.filter(user => {
@@ -49,9 +50,8 @@
 				'Content-Type': 'text/plain'
 			}
 		})
-		let result = response.json()
+		let result = await response.json()
 		users = result.data
-		//return response.data
 	})
 
 </script>
