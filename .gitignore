@@ -1,5 +1,3 @@
-terraform/.terraform
-*.tfstate*
 .vscode
 
 front/public/build
