@@ -1,11 +1,10 @@
-import db from '../utils/postgres.js' 
+import db from './postgres.js' 
 
 import store from '../users/store.js'
-const userStore = store(db)
+const userStore = store(db())
 
 import router from '../users/routes.js'
 const userRouter = router(userStore)
 
-export default {
-    router: userRouter
-}
+export default userRouter
+
